@@ -3,6 +3,9 @@ locals {
   location   = "southamerica-east1"
 }
 
+data "google_project" "project" {
+}
+
 resource "google_service_account" "cloud_run_service_account" {
   account_id   = "sa-run-challenge-api"
   display_name = "Service Account for Cloud Run"
@@ -68,4 +71,41 @@ module "bigquery" {
     labels          = {},
   }
   ]
+}
+
+module "pubsub" {
+  source  = "terraform-google-modules/pubsub/google"
+  version = "~> 6.0"
+
+  topic      = "challenge-topic"
+  project_id = local.project_id
+  bigquery_subscriptions = [
+    # {
+    #   name                = "bigquery-subscription"
+    #   table               = format("%s.%s.%s",
+    #     local.project_id, 
+    #     module.bigquery.bigquery_dataset.dataset_id, 
+    #     module.bigquery.bigquery_tables["flights"].table_id
+    #   )
+    #   use_topic_schema    = false
+    #   write_metadata      = false
+    #   drop_unknown_fields = false
+    # }
+  ]
+}
+
+resource "google_pubsub_subscription" "example" {
+  name  = "bigquery-subscription"
+  topic = module.pubsub.topic
+
+  bigquery_config {
+    table = format("%s.%s.%s",
+        local.project_id, 
+        module.bigquery.bigquery_dataset.dataset_id, 
+        module.bigquery.bigquery_tables["flights"].table_id
+      )
+    use_table_schema = true
+  }
+
+  depends_on = [module.project-iam-bindings]
 }
