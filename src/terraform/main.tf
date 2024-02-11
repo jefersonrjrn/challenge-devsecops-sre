@@ -46,3 +46,26 @@ included_files = ["src/api/**"]
 
   filename = "src/api/cloudbuild.yaml"
 }
+
+module "bigquery" {
+  source  = "terraform-google-modules/bigquery/google"
+  version = "~> 7.0"
+
+  dataset_id                  = "ds_challenge"
+  dataset_name                = "ds_challenge"
+  description                 = "Dataset for DevSecOps/SRE Challenge"
+  project_id                  = local.project_id
+  location                    = "US"
+
+  tables = [
+  {
+    table_id           = "flights",
+    schema             =  file("bigquery/schema.json"),
+    time_partitioning  = null,
+    range_partitioning = null,
+    expiration_time = null,
+    clustering      = [],
+    labels          = {},
+  }
+  ]
+}
