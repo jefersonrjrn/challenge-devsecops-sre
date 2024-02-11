@@ -1,0 +1,28 @@
+[
+    {
+        "name": "flight_id",
+        "type": "INTEGER",
+        "mode": "REQUIRED",
+        "description": "Flight ID"
+    },
+    {
+        "name": "flight_origin",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Flight origin",
+        "maxLength": "50"
+    },
+    {
+        "name": "flight_destination",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Flight destination",
+        "maxLength": "50"
+    },
+    {
+        "name": "flight_date",
+        "type": "DATE",
+        "mode": "REQUIRED",
+        "description": "Flight date"
+    }
+]
