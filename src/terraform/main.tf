@@ -34,3 +34,15 @@ module "artifact_registry" {
     "readers" = ["serviceAccount:${google_service_account.cloud_run_service_account.email}"]
   }
 }
+
+resource "google_cloudbuild_trigger" "cloud_run_trigger" {
+name = "run-challenge-api-trigger"
+included_files = ["src/api/**"]
+
+  trigger_template {
+    branch_name = "main"
+    repo_name   = "github_jefersonrjrn_challenge-devsecops-sre"
+  }
+
+  filename = "src/api/cloudbuild.yaml"
+}
