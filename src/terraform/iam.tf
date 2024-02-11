@@ -10,5 +10,11 @@ module "project-iam-bindings" {
     "roles/bigquery.dataEditor" = [
       "serviceAccount:service-${data.google_project.project.number}@gcp-sa-pubsub.iam.gserviceaccount.com",
     ]
+    "roles/bigquery.dataViewer" = [
+      "serviceAccount:${google_service_account.cloud_run_service_account.email}"
+    ]
+    "roles/bigquery.user" = [
+      "serviceAccount:${google_service_account.cloud_run_service_account.email}"
+    ]
   }
 }
