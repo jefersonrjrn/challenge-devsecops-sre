@@ -21,3 +21,16 @@ module "cloud_run" {
     "allUsers"
   ]
 }
+
+module "artifact_registry" {
+  source  = "GoogleCloudPlatform/artifact-registry/google"
+  version = "~> 0.1"
+
+  project_id    = local.project_id
+  location      = local.location
+  format        = "docker"
+  repository_id = "run-challenge-api"
+  members = {
+    "readers" = ["serviceAccount:${google_service_account.cloud_run_service_account.email}"]
+  }
+}
