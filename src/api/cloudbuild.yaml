@@ -26,4 +26,5 @@ steps:
     - |
       gcloud run deploy run-challenge-api \
         --image southamerica-east1-docker.pkg.dev/angelic-digit-302818/run-challenge-api/run-challenge-api:$SHORT_SHA \
-        --region southamerica-east1
+        --region southamerica-east1 \
+        --port 80
