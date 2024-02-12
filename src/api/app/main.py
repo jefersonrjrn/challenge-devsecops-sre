@@ -6,6 +6,7 @@ app = FastAPI()
 
 
 @app.get("/get-flights/{month}")
+
 def get_flights_by_month(month: str):
     # Construct a BigQuery client object.
     client = bigquery.Client()
@@ -32,6 +33,7 @@ def get_flights_by_month(month: str):
     return flight_list
 
 @app.get("/get-flights")
+
 def get_flights():
     # Construct a BigQuery client object.
     client = bigquery.Client()
@@ -39,6 +41,7 @@ def get_flights():
     query = f"""
         SELECT flight_id,flight_origin,flight_destination,flight_month
         FROM `angelic-digit-302818.ds_challenge.flights`
+
         LIMIT 20
     """
     rows = client.query_and_wait(query)  # Make an API request.
@@ -54,4 +57,5 @@ def get_flights():
             "flight_month": row["flight_month"]
         })
     print(flight_list)
+
     return flight_list
