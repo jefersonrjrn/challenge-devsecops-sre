@@ -34,9 +34,10 @@ steps:
   args:
     - '-c'
     - |
-      http_response=$(curl -s -o response.txt -w "%{http_code}" https://https://run-challenge-api-h5xyaztceq-rj.a.run.app/get-flights)
+      http_response=$(curl -s -o response.txt -w "%{http_code}" https://run-challenge-api-h5xyaztceq-rj.a.run.app/get-flights)
+      echo $http_response
       if [ $http_response != "200" ]; then
-          exit 0
+          exit 1
       else
           echo "Server returned:"
           cat response.txt    
