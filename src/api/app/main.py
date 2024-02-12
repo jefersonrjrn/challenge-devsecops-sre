@@ -6,7 +6,7 @@ app = FastAPI()
 
 
 @app.get("/get-flights/{month}")
-def get_flights_by_month():
+def get_flights_by_month(month: str):
     # Construct a BigQuery client object.
     client = bigquery.Client()
 
