@@ -1,0 +1,27 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: Build image
+  entrypoint: bash
+  args: 
+    - '-c'
+    - |
+      docker build -t \
+        southamerica-east1-docker.pkg.dev/angelic-digit-302818/run-challenge-api/run-challenge-api:$SHORT_SHA .
+- name: 'gcr.io/cloud-builders/docker'
+  id: Push image
+  entrypoint: bash
+  args: 
+    - '-c'
+    - |
+      docker push \
+        southamerica-east1-docker.pkg.dev/angelic-digit-302818/run-challenge-api/run-challenge-api:$SHORT_SHA
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  id: Deploy image
+  entrypoint: bash
+  args:
+    - '-c'
+    - |
+      gcloud run deploy run-challenge-api \
+        --image southamerica-east1-docker.pkg.dev/angelic-digit-302818/run-challenge-api/run-challenge-api:$SHORT_SHA \
+        --region southamerica-east1
