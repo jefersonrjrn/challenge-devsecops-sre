@@ -28,3 +28,17 @@ steps:
         --image southamerica-east1-docker.pkg.dev/angelic-digit-302818/run-challenge-api/run-challenge-api:$SHORT_SHA \
         --region southamerica-east1 \
         --port 80
+- name: gcr.io/cloud-builders/curl
+  id: Integration test
+  entrypoint: bash
+  args:
+    - '-c'
+    - |
+      http_response=$(curl -s -o response.txt -w "%{http_code}" https://run-challenge-api-h5xyaztceq-rj.a.run.app/get-flights)
+      echo $http_response
+      if [ $http_response != "200" ]; then
+          exit 1
+      else
+          echo "Server returned:"
+          cat response.txt    
+      fi
