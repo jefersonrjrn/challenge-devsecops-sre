@@ -1,0 +1,30 @@
+[
+    {
+        "name": "flight_id",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Flight ID",
+        "maxLength": "50"
+    },
+    {
+        "name": "flight_origin",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Flight origin",
+        "maxLength": "50"
+    },
+    {
+        "name": "flight_destination",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Flight destination",
+        "maxLength": "50"
+    },
+    {
+        "name": "flight_month",
+        "type": "STRING",
+        "mode": "REQUIRED",
+        "description": "Flight date",
+        "maxLength": "50"
+    }
+]
