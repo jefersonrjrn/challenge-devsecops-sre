@@ -5,8 +5,10 @@ steps:
   args: 
     - '-c'
     - |
+      cd src/api/
       docker build -t \
-        southamerica-east1-docker.pkg.dev/angelic-digit-302818/run-challenge-api/run-challenge-api:$SHORT_SHA .
+        southamerica-east1-docker.pkg.dev/angelic-digit-302818/run-challenge-api/run-challenge-api:$SHORT_SHA \
+        .
 - name: 'gcr.io/cloud-builders/docker'
   id: Push image
   entrypoint: bash
