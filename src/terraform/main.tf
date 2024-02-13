@@ -15,11 +15,11 @@ module "cloud_run" {
   source  = "GoogleCloudPlatform/cloud-run/google"
   version = "~> 0.10.0"
 
-  service_name           = "run-challenge-api"
-  project_id             = local.project_id
-  location               = local.location
-  image                  = "gcr.io/cloudrun/hello"
-  service_account_email  = google_service_account.cloud_run_service_account.email
+  service_name          = "run-challenge-api"
+  project_id            = local.project_id
+  location              = local.location
+  image                 = "gcr.io/cloudrun/hello"
+  service_account_email = google_service_account.cloud_run_service_account.email
   members = [
     "allUsers"
   ]
@@ -39,8 +39,8 @@ module "artifact_registry" {
 }
 
 resource "google_cloudbuild_trigger" "cloud_run_trigger" {
-name = "run-challenge-api-trigger"
-included_files = ["src/api/**"]
+  name           = "run-challenge-api-trigger"
+  included_files = ["src/api/**"]
 
   trigger_template {
     branch_name = "main"
@@ -54,22 +54,22 @@ module "bigquery" {
   source  = "terraform-google-modules/bigquery/google"
   version = "~> 7.0"
 
-  dataset_id                  = "ds_challenge"
-  dataset_name                = "ds_challenge"
-  description                 = "Dataset for DevSecOps/SRE Challenge"
-  project_id                  = local.project_id
-  location                    = "US"
+  dataset_id   = "ds_challenge"
+  dataset_name = "ds_challenge"
+  description  = "Dataset for DevSecOps/SRE Challenge"
+  project_id   = local.project_id
+  location     = "US"
 
   tables = [
-  {
-    table_id           = "flights",
-    schema             =  file("bigquery/schema.json"),
-    time_partitioning  = null,
-    range_partitioning = null,
-    expiration_time = null,
-    clustering      = [],
-    labels          = {},
-  }
+    {
+      table_id           = "flights",
+      schema             = file("bigquery/schema.json"),
+      time_partitioning  = null,
+      range_partitioning = null,
+      expiration_time    = null,
+      clustering         = [],
+      labels             = {},
+    }
   ]
 }
 
@@ -100,10 +100,10 @@ resource "google_pubsub_subscription" "example" {
 
   bigquery_config {
     table = format("%s.%s.%s",
-        local.project_id, 
-        module.bigquery.bigquery_dataset.dataset_id, 
-        module.bigquery.bigquery_tables["flights"].table_id
-      )
+      local.project_id,
+      module.bigquery.bigquery_dataset.dataset_id,
+      module.bigquery.bigquery_tables["flights"].table_id
+    )
     use_table_schema = true
   }
 
