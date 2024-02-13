@@ -29,6 +29,7 @@ The CI/CD was built using a Cloud Build trigger, that triggers on each event on 
 1. Initial setup
 2. Container Image build
 3. Push of the container image to Artifact Registry
+4. Deploy image to Cloud Run
 4. Integration test
 
 The steps definition can be found at [cloudbuild.yaml](src/api/cloudbuild.yaml).
@@ -88,6 +89,18 @@ List of SLOs:
 - Availability: 99% in the last 30 days
 - Latency: 98% of the requests need to be less than 450ms in the last 30 days
 - Error rate: 95% of the requests need to be successful in the last 30 days
+
+## Security improvements
+
+So that evaluators can access the URL of the API that was developed, I chose to leave the API configured in such a way that it accepts any requests without the need to perform authentication, pass a key/token or have its IP on an enabled list.
+
+As a good practice and system improvement, we can use [Cloud Run's native functionality to require authentication](https://cloud.google.com/run/docs/authenticating/overview). Through this functionality, only service accounts or users who have permission on the service will be able to make requests.
+
+Beside that, it's possible to implement others services and good practices to improve the security, such as:
+
+* Apply a [Cloud Armor](https://cloud.google.com/armor/docs/cloud-armor-overview) security policy and rules with rate limiting and OWASP Top 10
+* Use dedicated service accounts for each service, applying the least privilege principle
+* Whenever is possible, use only internal traffic and reduce the services exposure.
 
 ## Documentation
 
